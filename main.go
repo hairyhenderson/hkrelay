@@ -18,9 +18,9 @@ import (
 
 	"github.com/rs/zerolog"
 
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/gpio/gpioreg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpioreg"
+	"periph.io/x/host/v3"
 )
 
 func main() {
@@ -39,6 +39,7 @@ func main() {
 	flag.StringVar(&storagePath, "p", defaultPath, "storage path for HomeControl data")
 	flag.StringVar(&addr, "addr", "", "address to listen to")
 	flag.StringVar(&pinName, "pin", "P1_7", "GPIO pin name")
+	flag.StringVar(&setupCode, "code", "12344321", "setup code")
 	flag.StringVar(&accName, "name", "HomeKit Light", "accessory name")
 	flag.BoolVar(&debug, "debug", false, "Enable debug logging")
 
@@ -75,6 +76,9 @@ func main() {
 	}
 
 	relay := gpioreg.ByName(pinName)
+	if relay == nil {
+		log.Fatal().Str("pin", pinName).Msg("no pin found for name")
+	}
 	level := relay.Read()
 	log.Info().Str("pin", pinName).Bool("level", bool(level)).Msg("read relay pin level")
 

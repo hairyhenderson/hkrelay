@@ -1,0 +1,16 @@
+services:
+  hkrelay:
+    image: hairyhenderson/hkrelay
+    command: /bin/hkrelay -p=/hcdata -pin=P1_7 -name="Christmas Tree"
+    volumes:
+      - hcdata:/hcdata
+    network_mode: host
+    # necessary for GPIO
+    privileged: true
+    devices:
+      - /dev/gpiomem:/dev/gpiomem
+      - /dev/mem:/dev/mem
+
+volumes:
+  hcdata:
+    driver: local
