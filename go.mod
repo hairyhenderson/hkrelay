@@ -1,6 +1,6 @@
 module github.com/hairyhenderson/hkrelay
 
-go 1.19
+go 1.27.3
 
 require (
 	github.com/brutella/hc v1.2.5
